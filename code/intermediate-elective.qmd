@@ -25,6 +25,9 @@ library(scales)
 
 # reading in .xlsx files
 library(readxl)
+
+# visualizations and coloring
+library(RColorBrewer)
 ```
 
 ### Data
@@ -56,6 +59,29 @@ veg <- read_csv(here("data", "veg.csv"))
 # vegetation meta data information
 metadata <- read_csv(here("data", "vp_veg_metadata.csv"))
 ```
+
+## Problems 
+
+### 1. Explain your inspiration
+
+
+## 2. Plan your figure
+
+
+## 3. Code your figure
+
+
+## 4. Describe your process
+
+
+
+
+
+
+
+
+
+
 
 
 

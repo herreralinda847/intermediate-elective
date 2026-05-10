@@ -13,6 +13,7 @@ library(janitor)
 library(snakecase)
 library(scales)
 library(readxl)
+library(RColorBrewer)
 ```
 
 ## Data and file information
@@ -33,7 +34,7 @@ library(readxl)
 
 ## Rendered output
 
-The rendered individual assignment 5 is 
+The rendered intermediate elective option 2 is 
 [here](https://github.com/herreralinda847/intermediate-elective/blob/main/code/intermediate-elective.pdf).
 
 
