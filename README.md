@@ -24,6 +24,7 @@ library(RColorBrewer)
 ├── code
 │   ├── intermediate-elective.pdf.                  # intermediate elective option 2
 │   └── intermediate-elective.qmd
+│   └── sketch-intermediate-elective.jpg            # planning the figure
 ├── data
 │   ├── Aquatic Sampling Data-2026-03-10.xlsx       # invertebrate survey data
 │   └── taxon_list.csv                              # taxonomic information

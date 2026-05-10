@@ -78,15 +78,17 @@ Plant species map onto the individual bars with their names as labels around the
 
 ## 2. Plan your figure
 
+```{r}
+#| label: inserting-sketch
+#| echo: false
+#| message: false
+#| warning: false
+knitr::include_graphics(here("code", "sketch-intermediate-elective.jpg"))
+```
 
 ## 3. Code your figure
 
-
 ## 4. Describe your process
-
-
-
-
 
 
 
