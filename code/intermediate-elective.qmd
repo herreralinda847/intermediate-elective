@@ -64,6 +64,17 @@ metadata <- read_csv(here("data", "vp_veg_metadata.csv"))
 
 ### 1. Explain your inspiration
 
+Which visualization you chose:
+The visualization I chose for inspiration is a circular bar chart made by Cristina Cametti using the IKEA TidyTuesday dataset, which shows the most common IKEA designers grouped by furniture category.
+
+Why it makes sense for your dataset:
+This works well for my vegetation data because there are many plant species across different cover categories, and the circular layout is a clean way to display a lot of species at once without the labels overlapping like they would in a regular bar chart.
+
+Which variables you're using:
+The three variables shown are plant species (`psoc`), cover category (`cover_category`), and total percent cover, which is the sum of `percent_cover` across all sampling locations.
+
+How variables map onto visual components:
+Plant species map onto the individual bars with their names as labels around the outside of the circle, total percent cover maps onto bar height, and cover category maps onto bar color, which mirrors exactly how the IKEA inspiration mapped designer names, item counts, and furniture category onto the same visual components.
 
 ## 2. Plan your figure
 
