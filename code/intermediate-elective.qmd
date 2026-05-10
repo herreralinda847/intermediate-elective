@@ -80,17 +80,28 @@ knitr::include_graphics(here("code", "sketch-intermediate-elective.jpg"))
 #| fig-width: 8
 
 # wrangling: sum percent cover by species and cover category
-data <- veg |> # starting with veg data frame
-  group_by(cover_category, psoc) |> 
+# starting with veg data frame
+data <- veg |>
+  # grouping by cover category and species
+  group_by(cover_category, psoc) |>
+  # summing percent cover for each group, removing NAs
   summarise(n = sum(percent_cover, na.rm = TRUE)) |> 
-  ungroup() |> 
+  # ungrouping to avoid grouped operations downstream
+  ungroup() |>
   # removing bare ground, thatch, and NA cover categories
-  filter(!psoc == "Bare Ground") |> filter(!cover_category == "BARE GROUND") |> 
-  filter(!cover_category == "THATCH") |> filter(!cover_category == "NA") |> 
+  # removing bare ground as it is not a plant species
+  filter(!psoc == "Bare Ground") |> 
+  # removing bare ground cover category
+  filter(!cover_category == "BARE GROUND") |> 
+  # removing thatch
+  filter(!cover_category == "THATCH") |> 
+  # removing literal "NA" entries
+  filter(!cover_category == "NA") |> 
+  # removing true NA values from cover category
   filter(!is.na(cover_category)) |> 
   # replacing underscores with spaces in species names
   mutate(psoc = str_replace_all(psoc, "_", " ")) |> 
-  # renaming cover categories for legend
+  # renaming cover categories to be more readable
   mutate(cover_category = recode(cover_category,
                                  "NATIVE COVER" = "Native Cover",
                                  "NON-NATIVE COVER" = "Non-Native Cover",
