@@ -109,8 +109,10 @@ data <- veg |>
 
 # keep only species with high abundance to avoid overcrowding visual
 dt <- data |> 
-  arrange(desc(n)) |> 
-  filter(n > 500) # set the threshold
+  # arranging species from highest to lowest summed percent cover
+  arrange(desc(n)) |>
+  # keeping only species with summed percent cover > 500
+  filter(n > 500)
 
 # converting cover category and species to factors
 dt <- mutate_at(dt, vars(psoc), as.factor)
@@ -121,18 +123,25 @@ dt$cover_category <- factor(dt$cover_category,
 
 # adding empty bars at the end for spacing
 empty_bar <- 2
+# creating a matrix of NAs to use as empty bars
 to_add <- matrix(NA, empty_bar, ncol(dt))
+# matching column names so rbind works correctly
 colnames(to_add) <- colnames(dt)
+# binding empty bars to bottom of dataset
 dt <- rbind(dt, to_add)
 
-# creating an id column for polar coordinates
+# creating an id column to position bars around the circle
 dt$id <- seq(1, nrow(dt))
 
 # calculating label angles and alignment for readability
 label_data <- dt
+# counting total number of bars including empty ones
 number_of_bar <- nrow(label_data)
+# calculating the angle of each bar's label so text radiates outward
 angle <- 90 - 360 * (label_data$id - 0.5) / number_of_bar
+# flipping hjust so labels on left side of circle align correctly
 label_data$hjust <- ifelse(angle < -90, 1, 0)
+# adjusting angle so text on left side of circle is not upside down
 label_data$angle <- ifelse(angle < -90, angle + 180, angle)
 
 # setting color palette for cover categories
