@@ -189,7 +189,14 @@ plot
 
 ## 4. Describe your process
 
+Process of using someone else’s code:
+To adapt the IKEA circular bar chart code for my vegetation data, I replaced the IKEA dataset with my veg dataset and swapped the relevant variables, replacing `designer` with `psoc` (plant species), `category` with `cover_category`, and replacing `tally()` with `summarise(sum(percent_cover, na.rm = TRUE))` to sum actual percent cover values rather than just counting rows. I also added additional data cleaning steps such as filtering out bare ground, thatch, and NA cover categories, replacing underscores in species names with spaces, and renaming cover categories to be more readable in the legend. Along the way I had to figure out what the code did and why I was using it for the visual.
 
+Challenges:
+One challenge was that the empty bars added at the end of the dataset for spacing introduced `NA` values into the `cover_category` column, which caused `NA` to appear as its own category in the legend. This was fixed by adding `na.translate = FALSE` inside `scale_fill_manual()`. Another challenge was adjusting the filtering threshold for species abundance, which required running `summary(data$n)` first to understand the distribution before deciding on a cutoff value of 500.
+
+Contrasts with visualizations from class:
+This visualization differs from those made in class primarily because it uses a polar coordinate system through `coord_polar()`, which transforms a standard bar chart into a circular layout, something we did not use in any class assignments. Unlike the straightforward plots made in class using `geom_point()` with standard x and y axes, this figure requires additional steps like manually calculating bar label angles and adjusting text alignment so that species names radiate outward legibly around the circle.
 
 
 
