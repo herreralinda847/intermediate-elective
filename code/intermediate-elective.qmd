@@ -88,6 +88,101 @@ knitr::include_graphics(here("code", "sketch-intermediate-elective.jpg"))
 
 ## 3. Code your figure
 
+```{r}
+#| label: creating-visual
+#| message: false
+#| warning: false
+#| fig-height: 6
+#| fig-width: 8
+
+# wrangling: sum percent cover by species and cover category
+data <- veg |> # starting with veg data frame
+  group_by(cover_category, psoc) |> 
+  summarise(n = sum(percent_cover, na.rm = TRUE)) |> 
+  ungroup() |> 
+  # removing bare ground, thatch, and NA cover categories
+  filter(!psoc == "Bare Ground") |> filter(!cover_category == "BARE GROUND") |> 
+  filter(!cover_category == "THATCH") |> filter(!cover_category == "NA") |> 
+  filter(!is.na(cover_category)) |> 
+  # replacing underscores with spaces in species names
+  mutate(psoc = str_replace_all(psoc, "_", " ")) |> 
+  # renaming cover categories for legend
+  mutate(cover_category = recode(cover_category,
+                                 "NATIVE COVER" = "Native Cover",
+                                 "NON-NATIVE COVER" = "Non-Native Cover",
+                                 "OTHER COVER" = "Other Cover"))
+
+# keep only species with high abundance to avoid overcrowding visual
+dt <- data |> 
+  arrange(desc(n)) |> 
+  filter(n > 500) # set the threshold
+
+# converting cover category and species to factors
+dt <- mutate_at(dt, vars(psoc), as.factor)
+
+# setting factor levels explicitly to exclude NA from legend
+dt$cover_category <- factor(dt$cover_category, 
+                             levels = c("Native Cover", "Non-Native Cover", "Other Cover"))
+
+# adding empty bars at the end for spacing
+empty_bar <- 2
+to_add <- matrix(NA, empty_bar, ncol(dt))
+colnames(to_add) <- colnames(dt)
+dt <- rbind(dt, to_add)
+
+# creating an id column for polar coordinates
+dt$id <- seq(1, nrow(dt))
+
+# calculating label angles and alignment for readability
+label_data <- dt
+number_of_bar <- nrow(label_data)
+angle <- 90 - 360 * (label_data$id - 0.5) / number_of_bar
+label_data$hjust <- ifelse(angle < -90, 1, 0)
+label_data$angle <- ifelse(angle < -90, angle + 180, angle)
+
+# setting color palette for cover categories
+pal <- brewer.pal(3, "Dark2")
+
+# plotting circular bar chart
+plot <- ggplot(dt) +
+  # bars filled by cover category
+  geom_bar(aes(x = as.factor(id), y = n, fill = cover_category), stat = "identity") +
+  # applying color palette, removing NA from legend, and setting legend title
+  scale_fill_manual(values = pal, 
+                  na.translate = FALSE,
+                  name = "Cover Category") +
+  # setting y limits to create space in the center and top
+  ylim(-2000, 8000) +
+  # classic theme
+  theme_classic() +
+  # removing axes and grid lines
+  theme(
+    axis.text = element_blank(),
+    axis.title = element_blank(),
+    panel.grid = element_blank(),
+    plot.margin = unit(rep(-1, 4), "cm")) +
+  # center title
+  annotate(geom = "text",
+         x = 0, y = -2000,
+         hjust = .5, vjust = 0.5,
+         label = "Vegetation\nAbundance\nby Species", # added extra line break
+         size = 4,
+         lineheight = .8,
+         color = "black") +
+  # converting to polar/circular layout
+  coord_polar(start = 0) + 
+  # adding species name labels around the outside
+  geom_text(data = label_data,
+            aes(x = id, y = n + 1, label = psoc, hjust = hjust),
+            color = "black", fontface = "bold",
+            alpha = 0.6, size = 3.4,
+            angle = label_data$angle,
+            inherit.aes = FALSE)
+
+# displaying plot
+plot
+```
+
 ## 4. Describe your process
 
 
