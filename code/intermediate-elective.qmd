@@ -103,8 +103,8 @@ data <- veg |>
   mutate(psoc = str_replace_all(psoc, "_", " ")) |> 
   # renaming cover categories to be more readable
   mutate(cover_category = recode(cover_category,
-                                 "NATIVE COVER" = "Native Cover",
-                                 "NON-NATIVE COVER" = "Non-Native Cover",
+                                 "NATIVE COVER" = "Native",
+                                 "NON-NATIVE COVER" = "Non-Native",
                                  "OTHER COVER" = "Other Cover"))
 
 # keep only species with high abundance to avoid overcrowding visual
@@ -119,7 +119,7 @@ dt <- mutate_at(dt, vars(psoc), as.factor)
 
 # setting factor levels explicitly to exclude NA from legend
 dt$cover_category <- factor(dt$cover_category, 
-                             levels = c("Native Cover", "Non-Native Cover", "Other Cover"))
+                             levels = c("Native", "Non-Native", "Other Cover"))
 
 # adding empty bars at the end for spacing
 empty_bar <- 2
