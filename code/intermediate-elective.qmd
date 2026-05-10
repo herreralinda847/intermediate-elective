@@ -23,9 +23,6 @@ library(snakecase)
 # wrapping axis labels
 library(scales)
 
-# reading in .xlsx files
-library(readxl)
-
 # visualizations and coloring
 library(RColorBrewer)
 ```

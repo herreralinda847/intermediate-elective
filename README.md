@@ -12,7 +12,6 @@ library(here)
 library(janitor)
 library(snakecase)
 library(scales)
-library(readxl)
 library(RColorBrewer)
 ```
 
